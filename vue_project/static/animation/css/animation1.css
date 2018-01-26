@@ -1,0 +1,437 @@
+
+.hidden {
+	position: absolute;
+	overflow: hidden;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+
+/* Icons */
+
+.icon {
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+	margin: 0 auto;
+	fill: currentColor;
+}
+
+
+/* Top Navigation Style */
+
+.codrops-links {
+	position: relative;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.codrops-links::after {
+	content: '';
+	position: absolute;
+	top: 15%;
+	left: 50%;
+	width: 2px;
+	height: 70%;
+	opacity: 0.7;
+	background: rgba(0, 0, 0, 0.25);
+	-webkit-transform: rotate3d(0, 0, 1, 22.5deg);
+	transform: rotate3d(0, 0, 1, 22.5deg);
+}
+
+.codrops-icon {
+	display: inline-block;
+	margin: 0.5em;
+	padding: 0.5em;
+}
+
+/* Demo links */
+
+.codrops-demos {
+	margin: 0.25em 0;
+	padding: 0 1em;
+	font-weight: bold;
+}
+
+.codrops-demos a {
+	display: inline-block;
+	margin: 0 0.5em 0 0;
+}
+
+.codrops-demos a.current-demo {
+	color: #333;
+}
+
+.codrops-demos a.current-demo::after {
+	display: none;
+}
+
+
+/* Calendar */
+
+.calendar-wrap {
+	position: relative;
+	width: 100%;
+	height: 320px;
+}
+
+.js .calendar-wrap {
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+}
+
+.calendar {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.js .calendar {
+	-webkit-perspective: 1000px;
+	width: 1200px;
+	height: 320px;
+	padding: 0 100px;
+	margin:0 auto;
+}
+
+.no-js .calendar {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-align-content: center;
+	-ms-flex-line-pack: center;
+	align-content: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+
+/* Cubes container */
+
+.cubes {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-align-content: center;
+	-ms-flex-line-pack: center;
+	align-content: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+
+/* Single cube */
+
+.cube {
+	position: relative;
+	display: block;
+	-webkit-flex: none;
+	-ms-flex: none;
+	flex: none;
+	width: 180px;
+	height: 180px;
+	margin: 1.5vw;
+}
+
+.js .cube {
+	-webkit-flex: auto;
+	-ms-flex: auto;
+	flex: auto;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+
+.js .cube:not(.cube--inactive) {
+	cursor: pointer;
+}
+
+
+/* cube sides and rotations */
+
+.cube__side {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: inherit;
+	height: inherit;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	overflow: hidden;
+}
+
+.cube__side img{
+	width: 100%;
+	height: 127px;
+}
+
+.title-p{
+	padding-left: 10px;
+	/*line-height: 30px;*/
+}
+
+.cube__side--front {
+	position: relative;
+	-webkit-transform: translateZ(90px);
+	transform: translateZ(90px);
+}
+
+.cube__side--back {
+	-webkit-transform: rotateY(180deg) translateZ(90px);
+	transform: rotateY(180deg) translateZ(90px);
+}
+
+.cube__side--right {
+	-webkit-transform: rotateY(90deg) translateZ(90px);
+	transform: rotateY(90deg) translateZ(90px);
+}
+
+.cube__side--left {
+	-webkit-transform: rotateY(-90deg) translateZ(90px);
+	transform: rotateY(-90deg) translateZ(90px);
+}
+
+.cube__side--top {
+	-webkit-transform: rotateX(90deg) translateZ(90px);
+	transform: rotateX(90deg) translateZ(90px);
+}
+
+.cube__side--bottom {
+	-webkit-transform: rotateX(-90deg) translateZ(90px);
+	transform: rotateX(-90deg) translateZ(90px);
+}
+
+
+/* Cube counters and numbers */
+
+/* canvas for snow */
+
+.background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	transition: background-color 0.8s;
+}
+
+/* letter span for animations */
+
+[class*='letter'] {
+	position: relative;
+	display: inline-block;
+	white-space: pre;
+}
+
+[class*='letter']:blank {
+	padding-right: 10em;
+}
+
+
+/* content wrap */
+
+.content {
+	position: relative;
+}
+
+.js .content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+
+/* individual content block */
+
+.content__block {
+	padding: 10vh 5vw;
+}
+
+.js .content__block {
+	padding: 20vh 5vw;
+	position: absolute;
+	z-index: 100;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	width: 85%;
+	height: 100%;
+	padding: 3em 0 6em 7vw;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-khtml-user-select: none;
+}
+
+.content__title {
+	font-size: 7vw;
+	line-height: 0.85;
+	margin: 0;
+}
+
+.content__description {
+	font-size: 2.25vw;
+	margin: 1em 0;
+	padding: 0 0 0 5vw;
+}
+
+.content__meta {
+	font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0 0 0 2vw;
+}
+
+.content__meta::before {
+	content: '\2014';
+}
+
+.content__number {
+	position: absolute;
+}
+
+.btn-back {
+	font-size: 2em;
+	line-height: 2;
+	position: absolute;
+	z-index: 100;
+	right: 0;
+	bottom: 0;
+	width: 2em;
+	margin: 0;
+	margin: 1em;
+	padding: 0;
+	pointer-events: auto;
+	color: currentColor;
+	border: 0;
+	border: 2px solid;
+	background: none;
+}
+
+.btn-back:focus {
+	outline: none;
+}
+
+.no-js .content__number,
+.no-js .btn-back {
+	display: none;
+}
+
+.js .content__block,
+.js .content__description,
+.js .content__meta,
+.js .content__number,
+.js .btn-back {
+	opacity: 0;
+}
+
+.js .content__block--current {
+	pointer-events: auto;
+	opacity: 1;
+}
+
+
+.cube__side,
+.no-js .cube {
+	border: 0.75vw solid #fff;
+	outline: 1px solid #fff;
+	background: #f0f0f0 url('/static/animation/img/mandala.png') no-repeat center center;
+}
+
+.cube:not(.cube--inactive):nth-child(2n) .cube__side,
+.no-js .cube:not(.cube--inactive):nth-child(2n) {
+	background-image: url('/static/animation/img/mandala2.png');
+}
+
+.cube:not(.cube--inactive):nth-child(3n) .cube__side,
+.no-js .cube:not(.cube--inactive):nth-child(3n) {
+	background-image: url('/static/animation/img/mandala3.png');
+}
+
+.cube--inactive .cube__side,
+.no-js .cube--inactive {
+	background: #e1e0e0;
+}
+
+
+/* With JS we insert a number span into the cube */
+
+.cube__number,
+.no-js .cube::after {
+	font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, sans-serif;
+	font-weight: 700;
+	line-height: 2.5;
+	width: 2em;
+	height: 2em;
+	padding: 0 0 0 0.25em;
+	text-align: center;
+	letter-spacing: -0.05em;
+	color: #fff;
+	border-radius: 100% 0 0 0;
+	background: #f8af8d;
+}
+
+.cube:nth-child(2n):not(.cube--inactive) .cube__number,
+.no-js .cube:nth-child(2n):not(.cube--inactive)::after {
+	background: #f8d18d;
+}
+
+.cube:nth-child(3n):not(.cube--inactive) .cube__number,
+.no-js .cube:nth-child(3n):not(.cube--inactive)::after {
+	background: #8df88d;
+}
+
+.cube--inactive .cube__number,
+.no-js .cube--inactive::after {
+	background: #aaa;
+}
+
+.js .content__block {
+	text-align: right;
+}
+
+.content__number {
+	font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, sans-serif;
+	font-size: 40vw;
+	font-weight: bold;
+	line-height: 0.5;
+	right: 0;
+	bottom: 30vh;
+	text-indent: -0.175em;
+	letter-spacing: -0.175em;
+	color: #fff;
+}

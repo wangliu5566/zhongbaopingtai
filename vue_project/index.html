@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <title>桥帮主</title>
+  <link rel="Shortcut Icon" href=/static/img/base.png>
+  <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <div class="message" id="message" style="display: none;">
+    <img class="el-message__img" src="" id="messageType">
+    <div class="el-message__group">
+      <p id="messageText"></p>
+    </div>
+  </div>
+  <script src="/static/js/auto-size.js"></script>
+  <script src="/static/HuploadifyV2.0-master/jquery.js"></script>
+  <script src="/static/HuploadifyV2.0-master/jquery.Huploadify.js"></script>
+  <script>
+  //正式服务器
+  var baseUrl = 'http://crowdsourcing.jqweike.com';
+  //测试服务器
+  // var baseUrl = 'http://crowdtest.jqweike.com';
+  var baseUrlCommon = "http://share.jqweike.com";
+  function login(path) {
+    window.location.href = "http://softtone.jqweike.com/login?callback=" + encodeURIComponent(window.location.href.split('://')[1]);
+  }
+  function IsPC() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+      if (userAgentInfo.indexOf(Agents[v]) > 0) {
+        flag = false;
+        break;
+      }
+    }
+    return flag;
+  }
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u = "//piwik.jqweike.com/";
+    _paq.push(['setTrackerUrl', u + 'piwik.php']);
+    _paq.push(['setSiteId', '4']);
+    var d = document,
+      g = d.createElement('script'),
+      s = d.getElementsByTagName('script')[0];
+    g.type = 'text/javascript';
+    g.async = true;
+    g.defer = true;
+    g.src = u + 'piwik.js';
+    s.parentNode.insertBefore(g, s);
+  })();
+
+  //正式服务器流量统计
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f71fc1d47ce69d68f70b17de417b60fb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  function Message(messageBoxEle, messageTypeImgEle, messageTextEle) {
+    this.success = '/static/img/success.png';
+    this.error = '/static/img/error.png';
+    this.info = '/static/img/info.png';
+    this.warning = '/static/img/warning.png';
+    this.ele = messageBoxEle || document.getElementById('message');
+    this.messageType = messageTypeImgEle || document.getElementById('messageType');
+    this.messageText = messageTextEle || document.getElementById('messageText');
+    this.showMessage = function(type, text) {
+      document.getElementById('message').style.display = "block";
+      switch (type) {
+        case 'success':
+          this.messageType.src = this.success;
+          break;
+        case 'info':
+          this.messageType.src = this.info;
+          break;
+        case 'error':
+          this.messageType.src = this.error;
+          break;
+        case 'warning':
+          this.messageType.src = this.warning;
+          break;
+        default:
+          break;
+      }
+      this.messageText.innerText = text;
+      this.messageAnimate({ opacity: 100, top: 20 });
+      var _this = this;
+      setTimeout(function() {
+        _this.messageAnimate({ opacity: 0, top: 0 });
+      }, 3000)
+    }
+    this.messageAnimate = function(json, fn) {
+      var obj = this.ele;
+      var _this = this;
+      clearInterval(obj.setTime)
+      obj.setTime = setInterval(function() {
+        for (var attr in json) {
+          var current = 0;
+          if (attr == 'opacity') {
+            current = Math.round(parseFloat(_this.getStyle(obj, attr)) * 100);
+            speed = (json[attr] - current);
+          } else {
+            current = parseInt(_this.getStyle(obj, attr));
+            speed = (json[attr] - current) / 20;
+          }
+          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+          if (current != json[attr]) {
+            if (attr == 'opacity') {
+              obj.style.filter = 'alpha(opacity:' + (current + speed) + ')';
+              obj.style.opacity = (current + speed) / 100;
+            } else {
+              obj.style[attr] = current + speed + 'px';
+            }
+          } else {
+            if (fn) {
+              fn()
+            }
+          }
+        }
+      }, 16)
+    }
+    this.getStyle = function(obj, attr) {
+      if (obj.currentStyle) {
+        return obj.currentStyle[attr]
+      } else {
+        return getComputedStyle(obj, false)[attr]
+      }
+    }
+  }
+  var message = new Message();
+
+  function uploadevent(status, url) {
+    var caseCondition = '';
+    status += '';
+    if (status.indexOf(',') != -1) {
+      status = status.split(',');
+      caseCondition = status[0];
+    } else {
+      caseCondition = status;
+    }
+    switch (caseCondition) {
+      case '1':
+        message.showMessage('success', '头像上传成功');
+        window.sessionStorage.setItem('user-big-cover', status[1]);
+        window.sessionStorage.setItem('user-small-cover', status[2]);
+        break;
+      case '2':
+        if (confirm('js call upload')) {
+          return 1;
+        } else {
+          return 0;
+        }
+        break;
+      case '-1':
+        message.showMessage('warning', '取消上传头像');
+        break;
+      case '-2':
+        message.showMessage('error', '头像上传失败')
+        break;
+      default:
+        break;
+    }
+  }
+
+  function uploadImg(status, url) {
+    var caseCondition = '';
+    status += '';
+    if (status.indexOf(',') != -1) {
+      status = status.split(',');
+      caseCondition = status[0];
+    } else {
+      caseCondition = status;
+    }
+    switch (caseCondition) {
+      case '1':
+        var bigImage = ""
+        var middleImage = ""
+        var smallImage = ""
+        status.forEach(function(item, index) {
+          if (item.indexOf("_big") != -1) {
+            bigImage = item;
+          } else if (item.indexOf("_middle") != -1) {
+            middleImage = item;
+          } else if (item.indexOf("_small") != -1) {
+            smallImage = item;
+          }
+        })
+        $.ajax({
+          url: baseUrlCommon+'/v1/frontend/user/save-user-image',
+          type: 'post',
+          data: {
+            bigImage: bigImage,
+            middleImage: middleImage,
+            smallImage: smallImage,
+            userId: sessionStorage.userId,
+          },
+          success: function(res) {
+            if (res.status == 200) {
+              message.showMessage('success', '头像上传成功');
+              var userObj = JSON.parse(sessionStorage.userObj)
+              userObj.bigAvatar = res.data
+              sessionStorage.userObj = JSON.stringify(userObj)
+            }
+          }
+        })
+        break;
+      case '2':
+        if (confirm('js call upload')) {
+          return 1;
+        } else {
+          return 0;
+        }
+        break;
+      case '-1':
+        message.showMessage('warning', '取消上传头像');
+        break;
+      case '-2':
+        message.showMessage('error', '头像上传失败')
+        break;
+      default:
+        break;
+    }
+  }
+  </script>
+</body>
+</html>
